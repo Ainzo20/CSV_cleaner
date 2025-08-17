@@ -1,3 +1,5 @@
+//global variable for the parsed data
+let parsedCsvData=[];
 // 1. Select the file input and button
 const fileInput=document.getElementById('csvFile');
 const cleanBtn = document.getElementById('cleanBtn');
@@ -11,9 +13,9 @@ fileInput.addEventListener('change',(e)=>{
       reader.onload = (event) => {
         const csvData = event.target.result;
         // Parse the data
-        const rows = csvData.split('\n').map(row=>row.split(','));
+        parsedCsvData = csvData.split('\n').map(row => row.split(','));
          //get header row
-         const headers= rows[0];
+         const headers= parsedCsvData[0];
         //display headers
         displayHeadersAsCheckBoxes(headers);
         console.log('headers: ',headers)
