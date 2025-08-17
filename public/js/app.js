@@ -40,8 +40,8 @@ function displayHeadersAsCheckBoxes(headers){
     headers.forEach(header => {
       const checkbox=document.createElement('input');
       checkbox.type='checkbox';
-      checkbox.id='header';
-      checkbox.value='header';
+      checkbox.id=header;
+      checkbox.value=header;
 
       const label= document.createElement('label');
       label.htmlFor=header;
@@ -52,3 +52,13 @@ function displayHeadersAsCheckBoxes(headers){
       resultDiv.appendChild(document.createElement('br'));
     });
 }
+
+//cleaning duplicates
+cleanBtn.addEventListener('click',()=>{
+//Get all the created checkboxes
+const checkboxes =document.querySelectorAll('#result input[type="checkbox"]');
+
+//find the selected checkboxes(headers) and get their values
+const selectedHeaders= Array.from(checkboxes).filter(checkbox =>checkbox.checked).map(checkbox=>checkbox.value);
+console.log('Selected unique identifiers:', selectedHeaders);
+});
