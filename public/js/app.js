@@ -2,13 +2,53 @@
 const fileInput=document.getElementById('csvFile');
 const cleanBtn = document.getElementById('cleanBtn');
 // 2. Add an event listener to the button
-cleanBtn.addEventListener('click',()=>{
+fileInput.addEventListener('change',(e)=>{
      // 3. Get the uploaded file
-     const file=fileInput.files[0];
+     const file=e.target.files[0];
 
-     if (file){
-        console.log("Selected file",file.name);
-     }else{
-        console.log("No file selected");
-     }
+     if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const csvData = event.target.result;
+        // Parse the data
+        const rows = csvData.split('\n').map(row=>row.split(','));
+         //get header row
+         const headers= rows[0];
+        //display headers
+        displayHeadersAsCheckBoxes(headers);
+        console.log('headers: ',headers)
+      };
+  
+      reader.readAsText(file);
+    } else {
+      console.log('No file selected.');
+    }
 });
+
+//function to dynamically create checkboxes
+function displayHeadersAsCheckBoxes(headers){
+   const resultDiv= document.getElementById('result');
+
+   //clearing div before adding new content
+   result.innerHTML='';
+   //creating a section with heading to help the user choose the headers with checkboxes 
+   const heading = document.createElement('h3');
+   heading.textContent='Select the unique identifier columns';
+   result.appendChild(heading);
+
+    // Create and append the checkboxes for each header
+    headers.forEach(header => {
+      const checkbox=document.createElement('input');
+      checkbox.type='checkbox';
+      checkbox.id='header';
+      checkbox.value='header';
+
+      const label= document.createElement('label');
+      label.htmlFor=header;
+      label.textContent=header;
+
+      resultDiv.appendChild(checkbox);
+      resultDiv.appendChild(label);
+      resultDiv.appendChild(document.createElement('br'));
+    });
+}
