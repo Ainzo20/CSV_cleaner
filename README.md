@@ -1,7 +1,3 @@
-Absolutely. Here's a shorter, more concise, and still explicit README for your CSV Cleaner.
-
-***
-
 ### **CSV Cleaner v1.0**
 
 A simple, fast, and secure web tool to remove duplicate rows from CSV files. This app processes your data entirely in your browser, ensuring your information remains private.
