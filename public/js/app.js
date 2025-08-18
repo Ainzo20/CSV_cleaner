@@ -114,6 +114,20 @@ cleanBtn.addEventListener('click', () => {
         oldBtn.remove();
     }
 
+    // Create a new heading for the preview
+    const previewHeading =document.createElement('h3');
+    previewHeading.textContent = 'Preview of Clean Data';
+    resultDiv.appendChild(previewHeading);
+
+    // Create a pre element to display the data
+    const dataPreview = document.createElement('pre');
+    dataPreview.id = 'dataPreview';
+
+    // Convert the clean data back to a CSV string for display
+    const cleanedCsvString = cleanData.map(row => row.join(',')).join('\n');
+    dataPreview.textContent = cleanedCsvString;
+    resultDiv.appendChild(dataPreview);
+
     // Creating the download button
     const downloadBtn = document.createElement('button');
     downloadBtn.textContent = 'Download Clean Data';

@@ -1,0 +1,131 @@
+/*
+ * Universal Styles
+ */
+ * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*
+ * Body Styles
+ */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: #f5f5f5; /* New soft background color */
+    color: #4a4a4a; /* New soft text color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/*
+ * Container for the whole application
+ */
+.container {
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 650px;
+    box-sizing: border-box;
+}
+
+/*
+ * Heading and Paragraph Styles
+ */
+h1 {
+    color: #6b9080; /* Primary accent color */
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+h2, h3 {
+    color: #6b9080; /* Primary accent color */
+    border-bottom: 2px solid #e0e0e0; /* Softer divider */
+    padding-bottom: 10px;
+    margin-top: 2rem;
+}
+
+p {
+    margin-bottom: 1.5rem;
+}
+
+/*
+ * Section and Input Group Styles
+ */
+.instructions, .upload-section {
+    margin-bottom: 2rem;
+}
+
+.input-group {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/*
+ * Button and Input Styles
+ */
+input[type="file"] {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #a29587; /* Secondary accent for border */
+    font-size: 1rem;
+    cursor: pointer;
+    box-sizing: border-box;
+    background-color: #f8f8f8;
+}
+
+button {
+    background-color: #6b9080; /* Primary accent color */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+button:hover {
+    background-color: #496359; /* A darker shade for hover effect */
+}
+
+/*
+ * Checkbox and Label Styles
+ */
+#result h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+#result input[type="checkbox"] {
+    width: auto;
+    display: inline;
+    margin-right: 5px;
+}
+
+#result label {
+    font-size: 0.95rem;
+    color: #4a4a4a; /* Text color */
+    margin-right: 15px;
+}
+/* Icon styling */
+h1 i, h3 i {
+    font-size: 1.5rem;
+    color: #f77f00; /* You can match this to your primary color */
+}
+
+button i {
+    margin-left: 8px;
+    font-size: 1rem;
+}
