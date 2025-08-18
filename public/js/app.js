@@ -154,3 +154,8 @@ cleanBtn.addEventListener('click', () => {
         document.body.removeChild(link);
     });
 });
+
+// CTA button to scroll to the tool section
+document.getElementById('ctaButton').addEventListener('click', () => {
+    document.getElementById('tool-section').scrollIntoView({ behavior: 'smooth' });
+});
