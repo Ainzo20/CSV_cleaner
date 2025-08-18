@@ -170,3 +170,37 @@ pre {
     margin-top: 20px;
     flex-wrap: wrap;
 }
+
+.suggestions-section {
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid #c8e6c9;
+}
+
+.suggestions-section h2 {
+    margin-bottom: 10px;
+}
+
+.suggestions-section p {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.email-link {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.email-link:hover {
+    background-color: #43a047;
+}
+
+.email-link i {
+    margin-right: 8px;
+}
