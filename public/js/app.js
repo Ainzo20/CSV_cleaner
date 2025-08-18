@@ -63,4 +63,38 @@ const checkboxes =document.querySelectorAll('#result input[type="checkbox"]');
 //find the selected checkboxes(headers) and get their values
 const selectedHeaders= Array.from(checkboxes).filter(checkbox =>checkbox.checked).map(checkbox=>checkbox.value);
 console.log('Selected unique identifiers:', selectedHeaders);
+
+//get the headers from the global data to find their indices
+const headers =parsedCsvData[0];
+
+// Find the indices of the selected headers
+const uniqueColumnIndices=selectedHeaders.map(header=>headers.indexOf(header));
+
+//set which stores unique keys
+const uniqueRows=new Set();
+const cleanData=[];
+
+//adding the header row to the clean data first
+cleanData.push(headers);
+
+//Looping through the parsed data in the second row to find duplicates
+for(let i=0 ;i <parsedCsvData.length; i++){
+  const row=parsedCsvData[i];
+
+  //create a unique key from the selected columns
+  const key=uniqueColumnIndices.map(index=>row[index]).join('-');
+
+  //check if the key is already in the set (to eliminate duplicates)
+  if(!uniqueRows.has(key)){
+    //if not add into the set
+    uniqueRows.add(key);
+
+    //add the row to the cleanData array
+
+    cleanData.push(row);
+  }
+}
+
+  console.log("Clean data:",cleanData);
+  console.log('Number of rows removed:', parsedCsvData.length - cleanData.length);
 });
