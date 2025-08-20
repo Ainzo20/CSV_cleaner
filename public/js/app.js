@@ -1,4 +1,4 @@
-import { parsedCsvData, currentCleanData, setCurrentCleanData, resetData, hasCleanData } from './data-storage.js';
+import { parsedCsvData, currentCleanData, setCurrentCleanData, resetData, hasCleanData, addCorrections } from './data-storage.js';
 import { processFile } from './file-processor.js';
 import { displayHeadersAsCheckBoxes, updateResultsUI, resetUI } from './dom-manager.js';
 import { cleanData } from './data-cleaner.js';
@@ -21,7 +21,6 @@ fileInput.addEventListener('change', (e) => {
         resetData();
         resetUI();
     }
-
     processFile(e.target.files[0])
         .then(parsedData => {
             const headers = parsedData[0];
@@ -51,6 +50,11 @@ cleanBtn.addEventListener('click', () => {
 
     const { cleanData: resultData, removedRows } = cleanData(sourceData, selectedHeaders);
     setCurrentCleanData(resultData);
+
+    // Add the number of removed rows to the total corrections count
+    addCorrections(removedRows.length);
+    
+    // Pass both the clean and removed data to update the UI
     updateResultsUI(resultData, removedRows);
     
     // Add event listener for the download button.

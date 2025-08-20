@@ -1,4 +1,4 @@
-import { currentCleanData } from './data-storage.js'; // Corrected import
+import { currentCleanData, totalCorrectionsCount } from './data-storage.js'; // Corrected import
 
 /**
  * Creates and displays checkboxes for each header in the CSV.
@@ -89,7 +89,7 @@ export function updateResultsUI(cleanData, removedRows) {
         summaryMessage.id = 'summary-message';
         resultDiv.appendChild(summaryMessage);
     }
-    summaryMessage.textContent = `Total rows removed: ${removedRows.length}`;
+    summaryMessage.textContent = `Total rows removed in this operation: ${removedRows.length}. Total rows removed for the process: ${totalCorrectionsCount}`;
 
     let downloadBtn = document.getElementById('downloadBtn');
     if (!downloadBtn) {

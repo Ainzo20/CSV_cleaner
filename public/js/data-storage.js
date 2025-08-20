@@ -3,7 +3,8 @@ export let parsedCsvData = [];
 
 // A global variable to store the result of the latest cleaning operation.
 export let currentCleanData = null;
-
+//A global variable to store total rows removed
+export let totalCorrectionsCount =0;
 // Sets the initial parsed CSV data.
 export function setParsedCsvData(data) {
     parsedCsvData = data;
@@ -18,9 +19,15 @@ export function setCurrentCleanData(data) {
 export function resetData() {
     parsedCsvData = [];
     currentCleanData = null;
+    totalCorrectionsCount = 0;
 }
 
 //check if there is already cleaned data in the memory
 export function hasCleanData(){
     return currentCleanData !==null;
+}
+
+//add the removed rows through a count 
+export function addCorrections(count){
+    return totalCorrectionsCount+=count;
 }
