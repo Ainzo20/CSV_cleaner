@@ -1,20 +1,23 @@
-import { parsedCsvData, currentCleanData, setCurrentCleanData, resetData, hasCleanData, addCorrections } from './data-storage.js';
+import { parsedCsvData, currentCleanData, setCurrentCleanData, resetData, hasCleanData, addCorrections, setParsedCsvData } from './data-storage.js';
 import { processFile } from './file-processor.js';
-import { displayHeadersAsCheckBoxes, updateResultsUI, resetUI } from './dom-manager.js';
+import { updateResultsUI, resetUI, renderTextFormattingStep, renderDuplicateRemovalStep, renderResultsStep } from './dom-manager.js';
 import { cleanData } from './data-cleaner.js';
 import { downloadCleanedFile } from './download-manager.js';
+import { toLowerCase, toUpperCase, toTitleCase } from './text-formatter.js';
 
 // Selects the HTML input element with the ID 'csvFile'.
 const fileInput = document.getElementById('csvFile');
-// Selects the HTML button element with the ID 'cleanBtn'.
-const cleanBtn = document.getElementById('cleanBtn');
+// Selects the HTML button element with the ID 'ctaButton'.
+const ctaButton = document.getElementById('ctaButton');
 
-// Adds an event listener to the file input to detect when a file is selected.
+/**
+ * Handles the file selection event, processes the file, and renders the first UI step.
+ * @param {Event} e The change event from the file input.
+ */
 fileInput.addEventListener('change', (e) => {
-    if (hasCleanData()){
+    if (hasCleanData()) {
         const confirmReload = confirm("You have unsaved cleaned data. Are you sure you want to load a new file and lose all previous changes?");
         if (!confirmReload) {
-            // Clear the file input to prevent it from showing the newly selected file name.
             e.target.value = '';
             return;
         }
@@ -23,22 +26,56 @@ fileInput.addEventListener('change', (e) => {
     }
     processFile(e.target.files[0])
         .then(parsedData => {
-            const headers = parsedData[0];
-            displayHeadersAsCheckBoxes(headers);
+            setParsedCsvData(parsedData);
+            
+            renderTextFormattingStep();
+            
+            document.getElementById('nextStepBtn').addEventListener('click', handleNextStep);
         })
         .catch(error => {
             alert(error);
         });
 });
 
-// Adds an event listener to the "Clean My Data" button.
-cleanBtn.addEventListener('click', () => {
-    const sourceData = currentCleanData || parsedCsvData;
+/**
+ * Manages the transition from the Text Formatting step to the Duplicate Removal step.
+ */
+function handleNextStep() {
+    const textFormatSelect = document.getElementById('textFormatSelect');
+    const selectedFormat = textFormatSelect ? textFormatSelect.value : 'none';
+    
+    // We will apply the formatting to the entire dataset, including headers.
+    let sourceData = parsedCsvData;
 
-    if (sourceData.length === 0) {
-        alert("Please upload a CSV file first.");
-        return;
+    switch (selectedFormat) {
+        case 'lower':
+            sourceData = toLowerCase(sourceData);
+            break;
+        case 'upper':
+            sourceData = toUpperCase(sourceData);
+            break;
+        case 'title':
+            sourceData = toTitleCase(sourceData);
+            break;
+        case 'none':
+        default:
+            // No formatting applied.
+            break;
     }
+
+    // This formatted data (with formatted headers) is what is passed to the next step.
+    setCurrentCleanData(sourceData);
+
+    // Render the next step: Duplicate Removal. No headers are passed here.
+    renderDuplicateRemovalStep(handleCleanData);
+}
+
+/**
+ * Manages the data cleaning process when the "Clean My Data" button is clicked.
+ */
+function handleCleanData() {
+    // The sourceData now contains the formatted headers.
+    const sourceData = currentCleanData || parsedCsvData;
 
     const checkboxes = document.querySelectorAll('#result input[type="checkbox"]');
     const selectedHeaders = Array.from(checkboxes).filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
@@ -51,13 +88,11 @@ cleanBtn.addEventListener('click', () => {
     const { cleanData: resultData, removedRows } = cleanData(sourceData, selectedHeaders);
     setCurrentCleanData(resultData);
 
-    // Add the number of removed rows to the total corrections count
     addCorrections(removedRows.length);
-    
-    // Pass both the clean and removed data to update the UI
+
+    renderResultsStep();
     updateResultsUI(resultData, removedRows);
     
-    // Add event listener for the download button.
     const downloadBtn = document.getElementById('downloadBtn');
     if (downloadBtn) {
         downloadBtn.onclick = () => {
@@ -66,9 +101,8 @@ cleanBtn.addEventListener('click', () => {
             resetUI();
         };
     }
-});
+}
 
-// Adds an event listener to the Call-to-Action button to smoothly scroll to the tool section.
-document.getElementById('ctaButton').addEventListener('click', () => {
+ctaButton.addEventListener('click', () => {
     document.getElementById('tool-section').scrollIntoView({ behavior: 'smooth' });
 });
