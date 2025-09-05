@@ -1,6 +1,6 @@
 import { parsedCsvData, currentCleanData, setCurrentCleanData, resetData, hasCleanData, addCorrections, setParsedCsvData } from './data-storage.js';
 import { processFile } from './file-processor.js';
-import { updateResultsUI, resetUI, renderTextFormattingStep, renderDuplicateRemovalStep, renderResultsStep } from './dom-manager.js';
+import { updateResultsUI, resetUI, renderTextFormattingStep, renderDuplicateRemovalStep, renderResultsStep,showMessageBox } from './dom-manager.js';
 import { cleanData } from './data-cleaner.js';
 import { downloadCleanedFile } from './download-manager.js';
 import { toLowerCase, toUpperCase, toTitleCase } from './text-formatter.js';
@@ -15,6 +15,14 @@ const ctaButton = document.getElementById('ctaButton');
  * @param {Event} e The change event from the file input.
  */
 fileInput.addEventListener('change', (e) => {
+    const file =e.target.files[0];
+    const validFileTypes = ['text/csv', 'application/vnd.ms-excel', 'text/comma-separated-values'];
+    if (file && !validFileTypes.includes(file.type)) {
+        showMessageBox("Invalid File Type", "Please upload a valid CSV file.");
+        e.target.value = ''; // Clear the file input
+        return; // Stop the process
+    }
+    
     if (hasCleanData()) {
         const confirmReload = confirm("You have unsaved cleaned data. Are you sure you want to load a new file and lose all previous changes?");
         if (!confirmReload) {

@@ -162,3 +162,34 @@ export function renderResultsStep() {
     resultDiv.appendChild(summaryMessage);
     resultDiv.appendChild(downloadBtn);
 }
+//custom message box
+export function showMessageBox(title, message) {
+    const messageBox = document.createElement('div');
+    messageBox.id = 'custom-message-box';
+    messageBox.innerHTML = `
+        <div class="message-content">
+            <div class="message-header">
+                <h3>${title}</h3>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="message-body">
+                <p>${message}</p>
+            </div>
+            <div class="message-footer">
+                <button class="ok-btn">OK</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(messageBox);
+
+    const closeBtn = messageBox.querySelector('.close-btn');
+    closeBtn.addEventListener('click', () => {
+        messageBox.remove();
+    });
+
+    const okBtn = messageBox.querySelector('.ok-btn');
+    okBtn.addEventListener('click', () => {
+        messageBox.remove();
+    });
+}
